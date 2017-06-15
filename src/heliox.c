@@ -8,6 +8,8 @@
 #define HSH_TOK_BUFSIZE 64
 #define HSH_TOK_DELIM " \t\r\n\a"
 
+char cwd[1024];
+
 char** hsh_split_line(char* line) {
 
 	int bufsize = HSH_TOK_BUFSIZE, position = 0;
@@ -51,9 +53,13 @@ char* hsh_read_line() {
 void hsh_loop() {
 	char *line;
 	char **args;
+	int status;
+
+	if (getcwd(cwd, sizeof(cwd)) != NULL)
+        printf("HelioxSH... \n");
 
 	do {
-		printf("$ ");
+		printf("[%s]$ ",cwd);
 		line = hsh_read_line();
 		args = hsh_split_line(line);
 
